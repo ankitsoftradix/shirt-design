@@ -1,7 +1,14 @@
-import "./App.css";
+import Modal from "./components/Modal";
+import Features from "./components/features";
+import "./scss/App.scss";
 
 function App() {
-  return <>Hello Grin</>;
+  return (
+    <div className="mainWrap">
+      <Modal />
+      <Features />
+    </div>
+  );
 }
 
 export default App;
