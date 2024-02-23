@@ -1,22 +1,26 @@
-import {
-  ContactShadows,
-  Environment,
-  OrbitControls,
-  useGLTF,
-} from "@react-three/drei";
+import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useRef } from "react";
 import styles from "./Modal.module.scss";
 
 const ModalLayout = (props) => {
-  const group = useRef();
-  const { nodes, materials } = useGLTF("/shirt_baked.glb");
+  const { nodes, materials } = useGLTF("/shirt_design.glb");
   return (
-    <group ref={group} {...props} dispose={null}>
-      <mesh
-        geometry={nodes.T_Shirt_male.geometry}
-        material={materials.lambert1}
-      />
+    <group {...props} dispose={null}>
+      <group rotation={[-1.5, 0, 0]}>
+        <mesh
+          geometry={nodes.Object_2.geometry}
+          material={materials["21-tondi_neri_Gabellini-2"]}
+        />
+        <mesh geometry={nodes.Object_3.geometry} material={materials.Gesso} />
+        <points
+          geometry={nodes.Object_4.geometry}
+          material={materials.diffuse_Black}
+        />
+        <mesh
+          geometry={nodes.Object_5.geometry}
+          material={materials.salopette_importati}
+        />
+      </group>
     </group>
   );
 };
@@ -24,16 +28,15 @@ const ModalLayout = (props) => {
 const Modal = () => {
   return (
     <div className={styles.modalWrap}>
-      <Canvas camera={{ position: [2, 2, 2], fov: 20 }}>
+      <Canvas
+        camera={{
+          fov: 75,
+          near: 1,
+          far: 2000,
+        }}
+      >
         <ModalLayout />
         <Environment preset="city" />
-        <ContactShadows
-          position={[0, -0.8, 0]}
-          opacity={0.25}
-          scale={10}
-          blur={1.5}
-          far={0.8}
-        />
         <OrbitControls
           minPolarAngle={1}
           maxPolarAngle={1.5}
