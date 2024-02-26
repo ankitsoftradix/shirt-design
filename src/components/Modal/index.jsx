@@ -1,45 +1,44 @@
-import {
-  ContactShadows,
-  Environment,
-  OrbitControls,
-  useGLTF,
-} from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
-import { useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import styles from "./Modal.module.scss";
+import { OrbitControls } from "@react-three/drei";
+import { useRef } from "react";
+import { DoubleSide } from "three";
 
-const ModalLayout = (props) => {
-  const group = useRef();
-  const { nodes, materials } = useGLTF("/shirt_baked.glb");
+const ModalLayout = () => {
+  const cubeRef = useRef();
+  useFrame((state) => {
+    cubeRef.current.rotation.y += 0.01;
+    cubeRef.current.position.y =
+      Math.sin(2 * state.clock.elapsedTime - Math.PI) + 1.5;
+  });
   return (
-    <group ref={group} {...props} dispose={null}>
+    <>
+      <mesh ref={cubeRef}>
+        <boxGeometry />
+        <meshNormalMaterial />
+      </mesh>
       <mesh
-        geometry={nodes.T_Shirt_male.geometry}
-        material={materials.lambert1}
-      />
-    </group>
+        position={[0, 0, 0]}
+        rotation={[Math.PI / 2, 0, 0]}
+        scale={[1, 1, 1]}
+      >
+        <planeGeometry args={[4, 4]} />
+        <meshBasicMaterial side={DoubleSide} />
+      </mesh>
+    </>
   );
 };
 
 const Modal = () => {
   return (
     <div className={styles.modalWrap}>
-      <Canvas camera={{ position: [2, 2, 2], fov: 20 }}>
+      <Canvas
+        camera={{
+          position: [3, 3, 3],
+        }}
+      >
         <ModalLayout />
-        <Environment preset="city" />
-        <ContactShadows
-          position={[0, -0.8, 0]}
-          opacity={0.25}
-          scale={10}
-          blur={1.5}
-          far={0.8}
-        />
-        <OrbitControls
-          minPolarAngle={1}
-          maxPolarAngle={1.5}
-          enableZoom={false}
-          //   enablePan={false}
-        />
+        <OrbitControls />
       </Canvas>
     </div>
   );
