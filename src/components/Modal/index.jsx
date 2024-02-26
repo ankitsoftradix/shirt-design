@@ -1,27 +1,31 @@
-import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import styles from "./Modal.module.scss";
+import { OrbitControls } from "@react-three/drei";
+import { useRef } from "react";
+import { DoubleSide } from "three";
 
-const ModalLayout = (props) => {
-  const { nodes, materials } = useGLTF("/shirt_design.glb");
+const ModalLayout = () => {
+  const cubeRef = useRef();
+  useFrame((state) => {
+    cubeRef.current.rotation.y += 0.01;
+    cubeRef.current.position.y =
+      Math.sin(2 * state.clock.elapsedTime - Math.PI) + 1.5;
+  });
   return (
-    <group {...props} dispose={null}>
-      <group rotation={[-1.5, 0, 0]}>
-        <mesh
-          geometry={nodes.Object_2.geometry}
-          material={materials["21-tondi_neri_Gabellini-2"]}
-        />
-        <mesh geometry={nodes.Object_3.geometry} material={materials.Gesso} />
-        <points
-          geometry={nodes.Object_4.geometry}
-          material={materials.diffuse_Black}
-        />
-        <mesh
-          geometry={nodes.Object_5.geometry}
-          material={materials.salopette_importati}
-        />
-      </group>
-    </group>
+    <>
+      <mesh ref={cubeRef}>
+        <boxGeometry />
+        <meshNormalMaterial />
+      </mesh>
+      <mesh
+        position={[0, 0, 0]}
+        rotation={[Math.PI / 2, 0, 0]}
+        scale={[1, 1, 1]}
+      >
+        <planeGeometry args={[4, 4]} />
+        <meshBasicMaterial side={DoubleSide} />
+      </mesh>
+    </>
   );
 };
 
@@ -30,19 +34,11 @@ const Modal = () => {
     <div className={styles.modalWrap}>
       <Canvas
         camera={{
-          fov: 75,
-          near: 1,
-          far: 2000,
+          position: [3, 3, 3],
         }}
       >
         <ModalLayout />
-        <Environment preset="city" />
-        <OrbitControls
-          minPolarAngle={1}
-          maxPolarAngle={1.5}
-          enableZoom={false}
-          //   enablePan={false}
-        />
+        <OrbitControls />
       </Canvas>
     </div>
   );
