@@ -1,4 +1,4 @@
-import { useAnimations, useGLTF } from "@react-three/drei";
+import { Sky, useAnimations, useGLTF } from "@react-three/drei";
 import { Suspense, useEffect, useRef } from "react";
 
 const ModelSkeleton = (props) => {
@@ -11,6 +11,7 @@ const ModelSkeleton = (props) => {
   return (
     <Suspense>
       <ambientLight intensity={4} />
+      <Sky />
       <group ref={group} {...props} dispose={null}>
         <group>
           <group name="Geometry">

@@ -9,7 +9,7 @@ const Modal = () => {
       <Canvas camera={{ position: [0, 1, 4] }}>
         <ModelSkeleton />
         <OrbitControls />
-        <gridHelper />
+        {/* <gridHelper /> */}
       </Canvas>
     </div>
   );
