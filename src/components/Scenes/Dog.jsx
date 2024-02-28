@@ -1,7 +1,7 @@
-import { Sky, useAnimations, useGLTF } from "@react-three/drei";
+import { OrbitControls, Sky, useAnimations, useGLTF } from "@react-three/drei";
 import { Suspense, useEffect, useRef } from "react";
 
-const ModelSkeleton = (props) => {
+const DogSkeleton = (props) => {
   const group = useRef();
   const { nodes, animations } = useGLTF("./modal/dog.glb");
   const { actions } = useAnimations(animations, group);
@@ -10,6 +10,7 @@ const ModelSkeleton = (props) => {
   }, []);
   return (
     <Suspense>
+      <OrbitControls />
       <ambientLight intensity={4} />
       <Sky />
       <group ref={group} {...props} dispose={null}>
@@ -45,4 +46,4 @@ const ModelSkeleton = (props) => {
 
 useGLTF.preload("./modal/dog.glb");
 
-export default ModelSkeleton;
+export default DogSkeleton;
