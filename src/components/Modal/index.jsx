@@ -1,12 +1,13 @@
 import { Canvas } from "@react-three/fiber";
-import DogSkeleton from "../Scenes/Dog";
+import EggsSkeleton from "../Scenes/Eggs";
 import styles from "./Modal.module.scss";
 
 const Modal = () => {
   return (
     <div className={styles.modalWrap}>
-      <Canvas camera={{ position: [0, 1, 4] }}>
-        <DogSkeleton />
+      <Canvas>
+        {/* <DogSkeleton /> */}
+        <EggsSkeleton />
       </Canvas>
     </div>
   );

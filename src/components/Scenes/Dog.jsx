@@ -1,4 +1,4 @@
-import { OrbitControls, Sky, useAnimations, useGLTF } from "@react-three/drei";
+import { CameraControls, Sky, useAnimations, useGLTF } from "@react-three/drei";
 import { Suspense, useEffect, useRef } from "react";
 
 const DogSkeleton = (props) => {
@@ -10,7 +10,7 @@ const DogSkeleton = (props) => {
   }, []);
   return (
     <Suspense>
-      <OrbitControls />
+      <CameraControls camera={{ position: [0, 1, 4] }} />
       <ambientLight intensity={4} />
       <Sky />
       <group ref={group} {...props} dispose={null}>
